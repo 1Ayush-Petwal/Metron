@@ -40,12 +40,14 @@
     "express": "^5.1.0",
     "cors": "^2.8.5",
     "helmet": "^8.0.0",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/cors": "^2.8.17",
     "@types/node": "^22.13.4",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
     "eslint": "^9.24.0",

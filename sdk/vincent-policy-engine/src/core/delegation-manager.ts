@@ -1,16 +1,6 @@
-// Note: In a real implementation, you would install and import uuid
-// import { v4 as uuidv4 } from 'uuid';
-
-// Mock UUID function for now
-function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-import { 
-  DelegationDefinition, 
+import { v4 as uuidv4 } from 'uuid';
+import {
+  DelegationDefinition,
   DelegationDefinitionSchema,
   DelegationRequest,
   DelegationResponse,
@@ -244,7 +234,7 @@ export class DelegationManager {
 
       if (query.search) {
         const searchLower = query.search.toLowerCase();
-        filteredDelegations = filteredDelegations.filter(d => 
+        filteredDelegations = filteredDelegations.filter(d =>
           d.delegator.toLowerCase().includes(searchLower) ||
           d.delegatee.toLowerCase().includes(searchLower)
         );
@@ -255,7 +245,7 @@ export class DelegationManager {
         filteredDelegations.sort((a, b) => {
           const aValue = a[query.sortBy as keyof DelegationDefinition];
           const bValue = b[query.sortBy as keyof DelegationDefinition];
-          
+
           if (aValue < bValue) return query.sortOrder === 'asc' ? -1 : 1;
           if (aValue > bValue) return query.sortOrder === 'asc' ? 1 : -1;
           return 0;
@@ -406,7 +396,7 @@ export class DelegationManager {
     try {
       const key = `${userId}:${agentId}`;
       const userAgentDelegation = this.userAgentDelegations.get(key);
-      
+
       if (!userAgentDelegation) {
         return [];
       }
@@ -483,7 +473,7 @@ export class DelegationManager {
     try {
       const key = `${userId}:${agentId}`;
       const existing = this.userAgentDelegations.get(key);
-      
+
       if (existing) {
         const updatedDelegations = existing.delegations.filter(id => id !== delegationId);
         this.userAgentDelegations.set(key, {

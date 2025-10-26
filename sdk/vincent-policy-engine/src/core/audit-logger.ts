@@ -1,15 +1,5 @@
-// Note: In a real implementation, you would install and import uuid
-// import { v4 as uuidv4 } from 'uuid';
-
-// Mock UUID function for now
-function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-import { 
+import { v4 as uuidv4 } from 'uuid';
+import {
   AuditEvent,
   AuditEventType,
   AuditEventSeverity,
@@ -391,7 +381,7 @@ export class AuditLogger {
         filteredEvents.sort((a, b) => {
           const aValue = a[query.sortBy as keyof AuditEvent];
           const bValue = b[query.sortBy as keyof AuditEvent];
-          
+
           if (aValue < bValue) return query.sortOrder === 'asc' ? -1 : 1;
           if (aValue > bValue) return query.sortOrder === 'asc' ? 1 : -1;
           return 0;
@@ -422,7 +412,7 @@ export class AuditLogger {
     try {
       const start = new Date(startTime);
       const end = new Date(endTime);
-      
+
       const eventsInRange = this.events.filter(e => {
         const eventTime = new Date(e.timestamp);
         return eventTime >= start && eventTime <= end;
@@ -437,15 +427,15 @@ export class AuditLogger {
       for (const event of eventsInRange) {
         // Count by type
         eventsByType[event.type] = (eventsByType[event.type] || 0) + 1;
-        
+
         // Count by severity
         eventsBySeverity[event.severity] = (eventsBySeverity[event.severity] || 0) + 1;
-        
+
         // Count violations
         if (event.type === 'violation_detected') {
           recentViolations++;
         }
-        
+
         // Sum spending
         if (event.type === 'payment_processed') {
           const paymentEvent = event as PaymentAuditEvent;
@@ -477,7 +467,7 @@ export class AuditLogger {
   private logToConsole(event: AuditEvent): void {
     const logLevel = this.getLogLevel(event.severity);
     const message = `[${event.timestamp}] ${event.type.toUpperCase()}: ${event.userId}${event.agentId ? ` (agent: ${event.agentId})` : ''}`;
-    
+
     switch (logLevel) {
       case 'debug':
         console.debug(message, event);

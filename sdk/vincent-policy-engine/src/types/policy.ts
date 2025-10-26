@@ -2,16 +2,16 @@ import { z } from 'zod';
 
 // Define Network enum locally since we can't import from @metron/x402 in this context
 const NetworkSchema = z.enum([
-  'base-sepolia',
-  'base',
-  'avalanche-fuji',
-  'avalanche',
-  'iotex',
-  'solana-devnet',
-  'solana',
-  'sei',
-  'sei-testnet',
-  'polygon'
+    'base-sepolia',
+    'base',
+    'avalanche-fuji',
+    'avalanche',
+    'iotex',
+    'solana-devnet',
+    'solana',
+    'sei',
+    'sei-testnet',
+    'polygon'
 ]);
 export type Network = z.infer<typeof NetworkSchema>;
 

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  hedera-facilitator:
+    build: .
+    ports:
+      - "3000:3000"   # REST API
+      - "50051:50051" # gRPC
+      - "8080:8080"   # WebSocket
+    environment:
+      - NODE_ENV=production
+      - HEDERA_NETWORK=testnet
+      - HEDERA_MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com
+      - HEDERA_CONSENSUS_NODE_URL=https://testnet.hedera.com:50211
+      - HEDERA_OPERATOR_ID=${HEDERA_OPERATOR_ID}
+      - HEDERA_OPERATOR_KEY=${HEDERA_OPERATOR_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - API_KEY_SECRET=${API_KEY_SECRET}
+      - POLICY_REGISTRY_CONTRACT_ID=${POLICY_REGISTRY_CONTRACT_ID}
+      - POLICY_TOPIC_ID=${POLICY_TOPIC_ID}
+      - PAYMENT_SETTLEMENT_CONTRACT_ID=${PAYMENT_SETTLEMENT_CONTRACT_ID}
+      - PAYMENT_TOPIC_ID=${PAYMENT_TOPIC_ID}
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - hedera-facilitator
+    restart: unless-stopped

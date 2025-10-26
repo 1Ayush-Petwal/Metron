@@ -1,0 +1,248 @@
+syntax = "proto3";
+
+package hedera_facilitator;
+
+// Settlement Service
+service SettlementService {
+  rpc CreateSettlement(CreateSettlementRequest) returns (SettlementResponse);
+  rpc GetSettlement(GetSettlementRequest) returns (PaymentSettlement);
+  rpc GetSettlements(GetSettlementsRequest) returns (GetSettlementsResponse);
+  rpc VerifySettlement(VerifySettlementRequest) returns (SettlementVerification);
+}
+
+// Policy Service
+service PolicyService {
+  rpc CreatePolicy(CreatePolicyRequest) returns (PolicyResponse);
+  rpc UpdatePolicy(UpdatePolicyRequest) returns (PolicyResponse);
+  rpc GetPolicy(GetPolicyRequest) returns (PolicyRegistryEntry);
+  rpc QueryPolicies(QueryPoliciesRequest) returns (QueryPoliciesResponse);
+  rpc ArchivePolicy(ArchivePolicyRequest) returns (PolicyResponse);
+  rpc ActivatePolicy(ActivatePolicyRequest) returns (PolicyResponse);
+  rpc DeactivatePolicy(DeactivatePolicyRequest) returns (PolicyResponse);
+  rpc GetPolicyAuditLog(GetPolicyAuditLogRequest) returns (GetPolicyAuditLogResponse);
+  rpc GetPolicyStatistics(GetPolicyStatisticsRequest) returns (PolicyStatistics);
+}
+
+// Verification Service
+service VerificationService {
+  rpc Verify(VerificationRequest) returns (VerificationResponse);
+  rpc GetVerification(GetVerificationRequest) returns (VerificationResponse);
+  rpc GetVerifications(GetVerificationsRequest) returns (GetVerificationsResponse);
+}
+
+// Hedera Service
+service HederaService {
+  rpc GetAccount(GetAccountRequest) returns (HederaQueryResult);
+  rpc GetTransaction(GetTransactionRequest) returns (HederaQueryResult);
+}
+
+// Settlement Messages
+message CreateSettlementRequest {
+  string payment_id = 1;
+  string amount = 2;
+  string currency = 3;
+  string payer = 4;
+  string payee = 5;
+  map<string, string> metadata = 6;
+}
+
+message GetSettlementRequest {
+  string id = 1;
+}
+
+message GetSettlementsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+  string status = 3;
+}
+
+message GetSettlementsResponse {
+  repeated PaymentSettlement settlements = 1;
+  int32 total = 2;
+  bool has_more = 3;
+}
+
+message VerifySettlementRequest {
+  string id = 1;
+}
+
+message PaymentSettlement {
+  string settlement_id = 1;
+  string payment_id = 2;
+  string amount = 3;
+  string currency = 4;
+  string payer = 5;
+  string payee = 6;
+  string status = 7;
+  string transaction_id = 8;
+  string consensus_timestamp = 9;
+  string created_at = 10;
+  string updated_at = 11;
+  map<string, string> metadata = 12;
+}
+
+message SettlementResponse {
+  bool success = 1;
+  string settlement_id = 2;
+  string transaction_id = 3;
+  string consensus_timestamp = 4;
+  string error = 5;
+}
+
+message SettlementVerification {
+  string settlement_id = 1;
+  bool is_valid = 2;
+  string transaction_id = 3;
+  string consensus_timestamp = 4;
+  string verification_timestamp = 5;
+  map<string, string> details = 6;
+}
+
+// Policy Messages
+message CreatePolicyRequest {
+  string policy_hash = 1;
+  string owner = 2;
+  map<string, string> metadata = 3;
+}
+
+message UpdatePolicyRequest {
+  string policy_id = 1;
+  string policy_hash = 2;
+  string status = 3;
+  map<string, string> metadata = 4;
+}
+
+message GetPolicyRequest {
+  string id = 1;
+}
+
+message QueryPoliciesRequest {
+  string policy_id = 1;
+  string owner = 2;
+  string status = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message QueryPoliciesResponse {
+  bool success = 1;
+  repeated PolicyRegistryEntry policies = 2;
+  int32 total = 3;
+  bool has_more = 4;
+  string error = 5;
+}
+
+message ArchivePolicyRequest {
+  string id = 1;
+  string actor = 2;
+}
+
+message ActivatePolicyRequest {
+  string id = 1;
+  string actor = 2;
+}
+
+message DeactivatePolicyRequest {
+  string id = 1;
+  string actor = 2;
+}
+
+message GetPolicyAuditLogRequest {
+  string id = 1;
+}
+
+message GetPolicyAuditLogResponse {
+  repeated PolicyAuditEntry entries = 1;
+}
+
+message GetPolicyStatisticsRequest {
+  // Empty message
+}
+
+message PolicyRegistryEntry {
+  string policy_id = 1;
+  string policy_hash = 2;
+  string owner = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string status = 6;
+  string transaction_id = 7;
+  string consensus_timestamp = 8;
+  map<string, string> metadata = 9;
+}
+
+message PolicyResponse {
+  bool success = 1;
+  string policy_id = 2;
+  string transaction_id = 3;
+  string consensus_timestamp = 4;
+  string error = 5;
+}
+
+message PolicyAuditEntry {
+  string audit_id = 1;
+  string policy_id = 2;
+  string action = 3;
+  string actor = 4;
+  string timestamp = 5;
+  string transaction_id = 6;
+  string consensus_timestamp = 7;
+  map<string, string> details = 8;
+}
+
+message PolicyStatistics {
+  int32 total = 1;
+  int32 active = 2;
+  int32 inactive = 3;
+  int32 archived = 4;
+  map<string, int32> by_owner = 5;
+}
+
+// Verification Messages
+message VerificationRequest {
+  string type = 1;
+  map<string, string> data = 2;
+  string proof = 3;
+  string signature = 4;
+}
+
+message GetVerificationRequest {
+  string id = 1;
+}
+
+message GetVerificationsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message GetVerificationsResponse {
+  repeated VerificationResponse verifications = 1;
+  int32 total = 2;
+  bool has_more = 3;
+}
+
+message VerificationResponse {
+  bool success = 1;
+  bool is_valid = 2;
+  string verification_id = 3;
+  string timestamp = 4;
+  map<string, string> details = 5;
+  string error = 6;
+}
+
+// Hedera Messages
+message GetAccountRequest {
+  string id = 1;
+}
+
+message GetTransactionRequest {
+  string id = 1;
+}
+
+message HederaQueryResult {
+  bool success = 1;
+  map<string, string> data = 2;
+  string error = 3;
+  string transaction_id = 4;
+  string consensus_timestamp = 5;
+}

@@ -1,0 +1,121 @@
+{
+  "name": "@metron/hedera-facilitator-service",
+  "version": "0.1.0",
+  "description": "Hedera Facilitator Service for x402 payment settlement and Vincent policy registry management",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx --watch src/index.ts",
+    "start": "NODE_ENV=production tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts --fix",
+    "lint:check": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\""
+  },
+  "keywords": [
+    "hedera",
+    "x402",
+    "vincent",
+    "policy",
+    "settlement",
+    "facilitator",
+    "autonome",
+    "blockchain",
+    "payment"
+  ],
+  "license": "Apache-2.0",
+  "author": "Metron Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metron/hedera-facilitator-service"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.50.0",
+    "@metron/vincent-policy-engine": "file:../../sdk/vincent-policy-engine",
+    "@metron/x402": "file:../../sdk/x402",
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "dotenv": "^17.2.2",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2",
+    "viem": "^2.21.26",
+    "grpc": "^1.24.11",
+    "@grpc/grpc-js": "^1.9.14",
+    "@grpc/proto-loader": "^0.7.10",
+    "protobufjs": "^7.4.0",
+    "uuid": "^10.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "winston": "^3.13.0",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^22.13.4",
+    "@types/ws": "^8.5.12",
+    "@types/uuid": "^10.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/bcryptjs": "^2.4.6",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "eslint": "^9.24.0",
+    "prettier": "3.5.2",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/types/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/types/index.js"
+      }
+    },
+    "./client": {
+      "import": {
+        "types": "./dist/esm/client/index.d.ts",
+        "default": "./dist/esm/client/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/client/index.d.ts",
+        "default": "./dist/cjs/client/index.js"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/esm/server/index.d.ts",
+        "default": "./dist/esm/server/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/server/index.d.ts",
+        "default": "./dist/cjs/server/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ]
+}

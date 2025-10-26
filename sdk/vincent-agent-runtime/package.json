@@ -1,0 +1,81 @@
+{
+  "name": "@metron/vincent-agent-runtime",
+  "version": "0.1.0",
+  "description": "Vincent Agent Runtime for managing agent sessions, policy enforcement, and metered request execution",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx --watch src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts --fix",
+    "lint:check": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\""
+  },
+  "keywords": [
+    "vincent",
+    "agent",
+    "runtime",
+    "x402",
+    "policy",
+    "session",
+    "metering",
+    "autonome"
+  ],
+  "license": "Apache-2.0",
+  "author": "Metron Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metron/vincent-agent-runtime"
+  },
+  "dependencies": {
+    "@metron/vincent-policy-engine": "file:../vincent-policy-engine",
+    "x402": "file:../x402",
+    "x402-fetch": "file:../x402-fetch",
+    "@hashgraph/did-sdk-js": "^0.1.1",
+    "@lit-protocol/vincent-ability-sdk": "^0.1.0",
+    "zod": "^3.24.2",
+    "viem": "^2.21.26",
+    "dotenv": "^17.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "eslint": "^9.24.0",
+    "prettier": "3.5.2",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/types/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/types/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ]
+}

@@ -1,5 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+// Note: In a real implementation, you would install and import uuid
+// import { v4 as uuidv4 } from 'uuid';
+
+// Mock UUID function for now
+function uuidv4(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 export function requestLogger(req: Request, res: Response, next: NextFunction): void {
   // Generate request ID if not present

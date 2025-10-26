@@ -1,5 +1,19 @@
 import { z } from 'zod';
-import { Network } from '@metron/x402';
+
+// Define Network enum locally since we can't import from @metron/x402 in this context
+const NetworkSchema = z.enum([
+  'base-sepolia',
+  'base',
+  'avalanche-fuji',
+  'avalanche',
+  'iotex',
+  'solana-devnet',
+  'solana',
+  'sei',
+  'sei-testnet',
+  'polygon'
+]);
+export type Network = z.infer<typeof NetworkSchema>;
 
 // Policy Status
 export const PolicyStatusSchema = z.enum(['active', 'paused', 'revoked', 'expired']);
